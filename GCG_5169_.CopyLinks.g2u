@@ -1,0 +1,1073 @@
+Program.Sub.ScreenSU.Start
+Gui.frmNotes..Create
+Gui.frmNotes..Caption("Notes")
+Gui.frmNotes..Size(8820,4095)
+Gui.frmNotes..MinX(0)
+Gui.frmNotes..MinY(0)
+Gui.frmNotes..Position(0,0)
+Gui.frmNotes..BackColor(-2147483633)
+Gui.frmNotes..MaxButton(False)
+Gui.frmNotes..MousePointer(0)
+Gui.frmNotes..Event(UnLoad,frmNotes_UnLoad)
+Gui.frmNotes.txtNotes.Create(TextBoxR)
+Gui.frmNotes.txtNotes.Size(8355,2895)
+Gui.frmNotes.txtNotes.Position(105,75)
+Gui.frmNotes.cmdOk.Create(Button)
+Gui.frmNotes.cmdOk.Size(1050,375)
+Gui.frmNotes.cmdOk.Position(75,3045)
+Gui.frmNotes.cmdOk.Caption("Save")
+Gui.frmNotes.cmdOk.Event(Click,cmdOk_Click)
+Gui.frmduedate..Create
+Gui.frmduedate..Caption("Due Date")
+Gui.frmduedate..Size(2295,1110)
+Gui.frmduedate..MinX(0)
+Gui.frmduedate..MinY(0)
+Gui.frmduedate..Position(0,0)
+Gui.frmduedate..BackColor(-2147483633)
+Gui.frmduedate..MaxButton(False)
+Gui.frmduedate..MinButton(False)
+Gui.frmduedate..MousePointer(0)
+Gui.frmduedate..ShowInTaskBar(False)
+Gui.frmduedate..AlwaysOnTop(True)
+Gui.frmduedate..Sizeable(False)
+Gui.frmduedate..Event(UnLoad,frmduedate_UnLoad)
+Gui.frmduedate.dtpduedate.Create(DatePicker)
+Gui.frmduedate.dtpduedate.Size(1260,285)
+Gui.frmduedate.dtpduedate.Position(90,120)
+Gui.frmduedate.cmdok.Create(Button)
+Gui.frmduedate.cmdok.Size(555,345)
+Gui.frmduedate.cmdok.Position(1410,105)
+Gui.frmduedate.cmdok.Caption("OK")
+Gui.frmduedate.cmdok.Event(Click,cmdokdue_Click)
+Gui.frmContacts..Create
+Gui.frmContacts..Caption("Add New Contacts")
+Gui.frmContacts..Size(6015,3060)
+Gui.frmContacts..MinX(0)
+Gui.frmContacts..MinY(0)
+Gui.frmContacts..Position(0,0)
+Gui.frmContacts..BackColor(-2147483633)
+Gui.frmContacts..MaxButton(False)
+Gui.frmContacts..MinButton(False)
+Gui.frmContacts..MousePointer(0)
+Gui.frmContacts..Event(UnLoad,frmContacts_UnLoad)
+Gui.frmContacts.lbl1.Create(Label,"First Name :",True,990,255,0,390,390,True,0,"Arial",8,-2147483633,0)
+Gui.frmContacts.lbl2.Create(Label,"Last Name :",True,1005,255,0,375,855,True,0,"Arial",8,-2147483633,0)
+Gui.frmContacts.lbl3.Create(Label,"Contact Phone :",True,1305,255,0,75,1230,True,0,"Arial",8,-2147483633,0)
+Gui.frmContacts.lbl4.Create(Label,"Email :",True,645,255,0,765,1635,True,0,"Arial",8,-2147483633,0)
+Gui.frmContacts.cmdCreate.Create(Button)
+Gui.frmContacts.cmdCreate.Size(1200,375)
+Gui.frmContacts.cmdCreate.Position(150,2055)
+Gui.frmContacts.cmdCreate.Caption("Create")
+Gui.frmContacts.cmdCreate.Event(Click,cmdCreate_Click)
+Gui.frmContacts.txtfName.Create(TextBox,"",True,4020,300,0,1455,300,True,0,"Arial",8,-2147483643,1)
+Gui.frmContacts.txtlName.Create(TextBox,"",True,4020,300,0,1455,720,True,0,"Arial",8,-2147483643,1)
+Gui.frmContacts.txtTel.Create(TextBox,"",True,4020,300,0,1455,1155,True,0,"Arial",8,-2147483643,1)
+Gui.frmContacts.txtEmail.Create(TextBox,"",True,4020,300,0,1455,1575,True,0,"Arial",8,-2147483643,1)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+v.Global.sTransType.Declare 
+v.Global.lInv.Declare 
+
+	F.Intrinsic.Control.SelectCase(V.Caller.Hook)
+'		F.Intrinsic.Control.Caseany("11810","10870")
+
+		F.Intrinsic.Control.Case("10989")
+		'QO
+		'GAB-Button-3
+			gui.frmduedate..Show
+			gui.frmduedate..WaitForDismiss
+			f.Intrinsic.Control.End
+		F.Intrinsic.Control.Case("10990")
+		'QO
+		'GAB-Button-4
+			f.Intrinsic.Control.CallSub(Upload_AddlAddress)
+		F.Intrinsic.Control.Case("11872")
+		'savehdr
+			f.Intrinsic.Control.CallSub(Save_ScreenContacts)
+			f.Intrinsic.Control.If(v.Caller.Switches,=,"N")
+				f.Intrinsic.Control.CallSub(WinTitle,"ScrType","Order")
+			f.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.Case("10922")
+		'savehdr
+			f.Intrinsic.Control.If(v.Caller.Switches,=,"N")
+				f.Intrinsic.Control.CallSub(WinTitle,"ScrType","Quote")
+			f.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.Case("10710")
+			'Quote Populate Hook
+			f.Intrinsic.Control.If(v.Caller.Switches,=,"N")
+				F.Intrinsic.Control.CallSub(Ctl_visible,"ScrType","QO")
+				F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",v.Passed.000006)
+			f.Intrinsic.Control.EndIf 
+			
+			'Duedate DatePicker
+			F.Intrinsic.Variable.SetProperty("GAB-BTN-3","PL",164)
+			F.Intrinsic.Variable.SetProperty("GAB-BTN-3","PT",353)
+			F.Intrinsic.Variable.SetProperty("GAB-BTN-3","PW",25)
+			F.Intrinsic.Variable.SetProperty("GAB-BTN-3","PH",20)
+			v.Passed.gab-btn-3.Set("v")
+			f.Intrinsic.UI.ChangeCallerProperty(v.Passed.GAB-BTN-3,"LOCK",0)
+			f.Intrinsic.Control.End 
+		F.Intrinsic.Control.Case("10721")
+		'Quote NO Hook
+			f.Intrinsic.UI.InvokeWaitDialog("Loading screen")
+			v.Global.sTransType.Set("QO")
+			F.Intrinsic.Control.CallSub(Ctl_visible,"ScrType","QO")
+			f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","Y")
+			F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",v.Passed.000006)
+			F.Intrinsic.Control.CallSub(Get_Createdby)
+			f.Intrinsic.Control.CallSub(WinTitle,"ScrType","Quote")
+			
+			'Read contacts to see if there is any change
+			f.Intrinsic.Control.CallSub(Read_ScreenContacts)
+			f.Intrinsic.Control.End 
+			f.Intrinsic.UI.CloseWaitDialog
+		F.Intrinsic.Control.Case("10923")
+		'Quote Save
+			f.Intrinsic.Control.CallSub(Save_ScreenContacts)
+			f.Intrinsic.Control.End 
+		F.Intrinsic.Control.Case("10987")
+		'GAB-BTN-1
+			v.Global.sTransType.Set("QO")
+			f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","N")
+			gui.frmNotes..Show 
+		F.Intrinsic.Control.Case("10988")
+		'GAB-BTN-2
+			F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",v.Passed.000006)
+			gui.frmNotes..Caption("Customer Notes")
+			gui.frmNotes..Show 
+		F.Intrinsic.Control.Case("11565")
+		'Order select 
+			f.Intrinsic.Control.If(v.Caller.Switches,=,"O")
+				f.Intrinsic.UI.InvokeWaitDialog("Loading screen")
+				v.Global.sTransType.Set("SO")
+				F.Intrinsic.Control.CallSub(Ctl_visible,"ScrType","SO")
+'				f.Intrinsic.Control.CallSub(order_status)
+				f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","Y")
+				F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",v.Passed.000006)
+				F.Intrinsic.Control.CallSub(Get_Createdby)
+				f.Intrinsic.Control.CallSub(WinTitle,"ScrType","Order")
+			f.Intrinsic.Control.EndIf
+			f.Intrinsic.Control.CallSub(Read_ScreenContacts)
+			f.Intrinsic.UI.CloseWaitDialog
+			f.Intrinsic.Control.End 
+		F.Intrinsic.Control.Case("11560")
+		'Populate
+			v.Global.sTransType.Set("SO")
+			f.Intrinsic.Control.If(v.Caller.Switches,=,"N")
+				F.Intrinsic.Control.CallSub(Ctl_visible,"ScrType","SO")
+				F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",v.Passed.000006)
+			f.Intrinsic.Control.EndIf 
+			f.Intrinsic.Control.End
+		F.Intrinsic.Control.Case("11953")
+		'GAB-BTN-4 SO
+			f.Intrinsic.Control.CallSub(Upload_AddlAddress)
+		F.Intrinsic.Control.Case("11952")
+		'GAB-BTN-3
+			v.Global.sTransType.Set("SO")
+		'	f.Intrinsic.Control.If(Variable.Passed.000003.Trim,<>,"")
+				f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","N")
+		'	f.Intrinsic.Control.EndIf
+			gui.frmNotes..Show 
+		F.Intrinsic.Control.Case("11951")
+		'GAB-BTN-2
+			F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",v.Passed.000006)
+			gui.frmNotes..Caption("Customer Notes")
+			gui.frmNotes..Show 
+		F.Intrinsic.Control.Case("28701")
+		'Invoice Poupulate
+			v.Global.sTransType.Set("SO")
+			v.Global.lInv.Set(1)
+			f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","Y")
+			f.Intrinsic.Control.If(v.Args.RTINV,=,"Y")
+				Variable.Passed.000162.Set("Notes +")
+			f.Intrinsic.Control.Else
+				Variable.Passed.000162.Set("Notes")
+			f.Intrinsic.Control.EndIf 
+			Variable.Passed.GLOBAL.Set(v.Passed.000006)
+			F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",Variable.Passed.GLOBAL)
+			f.Intrinsic.Control.If(v.Args.RTINV,=,"Y")
+				Variable.Passed.000141.Set("Cust Notes +")
+			f.Intrinsic.Control.Else
+				Variable.Passed.000141.Set("Cust Notes")
+			f.Intrinsic.Control.EndIf 
+			
+		F.Intrinsic.Control.Case("15100")
+		'Script1 Button
+			v.Global.sTransType.Set("SO")
+			v.Global.lInv.Set(1)
+			f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","N")
+			gui.frmNotes..Show 
+		F.Intrinsic.Control.Case("15110")
+		'Script2 Button
+			v.Global.lInv.Set(1)
+			F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",Variable.Passed.GLOBAL)
+			gui.frmNotes..Caption("Customer Notes")
+			gui.frmNotes..Show 	
+		F.Intrinsic.Control.Case("33001")
+		'OE HIST Poupulate
+			Variable.Passed.000153.Set("Notes")
+			Variable.Passed.000158.Set("Cust Notes")
+		F.Intrinsic.Control.Case("33002")
+		'OE HIST Script1 Button
+			f.Intrinsic.Control.If(Variable.Passed.000002,<>,"")
+				v.Global.sTransType.Set("SO")
+				v.Global.lInv.Set(1)
+				f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","H")
+				gui.frmNotes..Show 
+			f.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.Case("33003")
+		'OE HIST Script2 Button
+			f.Intrinsic.Control.If(Variable.Passed.000007,<>,"")
+				v.Global.lInv.Set(1)
+				F.Intrinsic.Control.CallSub(Get_CustNotes,"CUSTNO",Variable.Passed.000007)
+				gui.frmNotes..Caption("Customer Notes")
+				gui.frmNotes..Show 	
+			f.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.Case("17301")
+		'Post Move to Sales Oder - Quote won loss
+			f.Intrinsic.Control.CallSub(doclink)
+	F.Intrinsic.Control.EndSelect	
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Main.End
+
+Program.Sub.Ctl_Visible.Start
+F.Intrinsic.Control.SetErrorHandler("Ctl_Visible_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+'In Order entry GAB-BTN-1 used by Freight Quotes
+
+F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-2,"HIDE",0)
+F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-2,"LOCK",0)
+
+'SAVE Ship Address
+F.Intrinsic.Variable.SetProperty("GAB-BTN-4","PL",820)
+F.Intrinsic.Variable.SetProperty("GAB-BTN-4","PT",133)
+F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-4","PH",23)
+F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-4","PW",80)
+F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-4,"HIDE",0)
+F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-4,"LOCK",0)
+V.passed.GAB-BTN-4.set("Add Ship To")
+
+f.Intrinsic.Control.If(v.Args.ScrType,=,"QO")
+
+	F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-1,"HIDE",0)
+	F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-1,"LOCK",0)
+	
+	
+		'notes button
+	F.Intrinsic.UI.ChangeCallerProperty(V.Passed.000046,"LOCK",1)
+	F.Intrinsic.UI.ChangeCallerProperty(V.Passed.000046,"HIDE",1)
+
+	V.passed.GAB-BTN-1.set("NOTES")
+	V.passed.GAB-BTN-2.set("Cust Notes")
+	
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-1","PL",405)
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-1","PT",564)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-1","PH",25)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-1","PW",65)
+
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-2","PL",405)
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-2","PT",590)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-2","PH",22)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-2","PW",65)
+	
+	'reference
+	Variable.Passed.000145.Set("Purchase Order")
+	'sortcode1
+	Variable.Passed.000143.Set("Reference")
+
+f.Intrinsic.Control.ElseIf(v.Args.ScrType,=,"SO") 
+
+	F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-3,"HIDE",0)
+	F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-3,"LOCK",0)
+
+
+	V.passed.GAB-BTN-3.set("NOTES")
+	V.passed.GAB-BTN-2.set("Cust Notes")
+	'sortcode1
+	Variable.Passed.000117.Set("Reference")
+
+'	F.Intrinsic.Variable.SetProperty("GAB-BTN-3","PL",534)
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-3","PL",700)
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-3","PT",610)
+
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-3","PH",23)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-3","PW",80)
+
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-2","PL",617)
+	F.Intrinsic.Variable.SetProperty("GAB-BTN-2","PT",610)
+
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-2","PH",23)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-BTN-2","PW",80)
+f.Intrinsic.Control.Endif
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Ctl_Visible_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Ctl_Visible.End
+
+Program.Sub.frmNotes_UnLoad.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+f.Intrinsic.Control.If(Variable.DataTable.DtLines.Exists)
+	F.Data.DataTable.Close("DTLines")
+f.Intrinsic.Control.endif
+F.ODBC.Connection!con.Close
+f.Intrinsic.Control.End 
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.frmNotes_UnLoad.End
+
+Program.Sub.cmdOk_Click.Start
+F.Intrinsic.Control.SetErrorHandler("frmNotes_UnLoad_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+'Save Notes
+Function.Data.DataTable.SetValue("DTLines",0,"Last_CHG_DATE",v.Ambient.now)
+Function.Data.DataTable.SetValue("DTLines",0,"Last_CHG_USER",v.Caller.User)
+Function.Data.DataTable.SetValue("DTLines",0,"Notes",v.Screen.frmNotes!txtNotes.Text)
+
+F.Data.DataTable.SaveToDB("DTLines","con","GCG_5169_CopyLinks","Quote_Order_No*!*Trans_Type",256,"Quote_Order_No@!@Quote_Order_No*!*Trans_Type@!@Trans_Type*!*Created_Date@!@Created_Date*!*Created_User@!@Created_User*!*Last_CHG_DATE@!@Last_CHG_DATE*!*Last_CHG_USER@!@Last_CHG_USER*!*Notes@!@Notes")
+
+f.Intrinsic.Control.If(v.Global.lInv,=,1)
+'	Variable.Passed.000162.Set("Notes +)
+f.Intrinsic.Control.Else
+	f.Intrinsic.Control.If(v.Global.sTransType,=,"SO")
+		V.passed.GAB-BTN-3.set("NOTES +")
+	f.Intrinsic.Control.ElseIf(v.Global.sTransType,=,"QO")
+		V.passed.GAB-BTN-1.set("NOTES +")
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.EndIf 
+
+f.Intrinsic.Control.CallSub(frmnotes_unload)
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("frmNotes_UnLoad_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.cmdOk_Click.End
+
+Program.Sub.Get_Notes.Start
+F.Intrinsic.Control.SetErrorHandler("Get_Notes_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+v.Local.sSQL.Declare 
+v.local.sOrderNo.Declare 
+
+
+
+F.Intrinsic.Control.If(V.ODBC.Con.State,=,0)
+	F.ODBC.Connection!con.OpenCompanyConnection(300)
+f.Intrinsic.Control.endif
+
+
+f.Intrinsic.Control.If(v.Global.lInv,=,1)
+	f.Intrinsic.Control.If(v.Args.ChkNotes,=,"Y")
+		f.Intrinsic.String.LPad(Variable.Passed.000003.Trim,"0",7,v.Local.sOrderno)
+	f.Intrinsic.Control.elseIf(v.Args.ChkNotes,=,"H")
+		f.Intrinsic.String.LPad(Variable.Passed.000002.Trim,"0",7,v.Local.sOrderno)
+	f.Intrinsic.Control.Else
+		f.Intrinsic.String.LPad(Variable.Passed.009001.Trim,"0",7,v.Local.sOrderno)
+	f.Intrinsic.Control.EndIf 
+f.Intrinsic.Control.Else
+	f.Intrinsic.String.LPad(Variable.Passed.000003.Trim,"0",7,v.Local.sOrderno)
+f.Intrinsic.Control.endif
+
+f.Intrinsic.String.Build("select Quote_Order_No,Trans_Type,Created_User,Created_Date,Last_CHG_DATE,Last_CHG_USER,Notes  from GCG_5169_CopyLinks where Quote_Order_No = '{0}' and Trans_Type = '{1}'",v.local.sOrderNo,v.Global.sTransType,V.Local.sSQL)
+
+F.Data.DataTable.CreateFromSQL("DTLines","con",v.Local.sSQL,True)
+f.Intrinsic.Control.If(Variable.DataTable.DTLines.rowcount,=,0)
+	f.Intrinsic.Control.If(v.Global.lInv,=,1)
+		f.Intrinsic.Variable.AddRV("RTINV","N")
+	f.Intrinsic.Control.else	
+		f.Intrinsic.Control.If(v.Global.sTransType,=,"SO")
+			V.passed.GAB-BTN-3.set("NOTES")
+		f.Intrinsic.Control.Else
+			V.passed.GAB-BTN-1.set("NOTES")
+		f.Intrinsic.Control.endif
+		
+		'checking notes exist
+	f.Intrinsic.Control.endif
+	f.Intrinsic.Control.If(v.Args.ChkNotes,=,"N","or",v.Args.ChkNotes,=,"H")
+		f.Data.DataTable.AddRow("DTLines","Quote_Order_No",v.local.sOrderNo,"Trans_Type",v.Global.sTransType,"Created_Date",v.Ambient.now,"Created_User",v.Caller.User,"Notes","")
+	f.Intrinsic.Control.endif
+f.Intrinsic.Control.Else
+	f.Intrinsic.Control.If(v.Global.lInv,=,1)
+		f.Intrinsic.Variable.AddRV("RTINV","Y")
+	f.Intrinsic.Control.else	
+		f.Intrinsic.Control.If(v.Global.sTransType,=,"SO")
+			V.passed.GAB-BTN-3.set("NOTES +")
+		f.Intrinsic.Control.Else
+			V.passed.GAB-BTN-1.set("NOTES +")
+		f.Intrinsic.Control.endif
+	f.Intrinsic.Control.endif	
+	gui.frmNotes.txtNotes.Text(v.DataTable.DTLines(0).Notes!FieldValtrim)
+f.Intrinsic.Control.endif
+
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_Notes_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Get_Notes.End
+
+Program.Sub.DocLink.Start
+F.Intrinsic.Control.SetErrorHandler("DocLink_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+v.Local.sQuoteLinkID.Declare
+v.Local.sOrderLinkID.Declare  
+
+
+'Copy Quote Documents
+Function.Global.DocumentControl.GetLinkID(v.passed.Quote,50, v.Local.sQuoteLinkID)
+F.Intrinsic.Control.If(v.Local.sQuoteLinkID,<>,"-1")
+	Function.Global.DocumentControl.CreateReference(v.Passed.Order,45,v.Local.sOrderLinkID)
+	Function.Global.DocumentControl.CopyExt(v.Local.sQuoteLinkID, v.Local.sOrderLinkID, false, true, V.Caller.User)
+f.Intrinsic.Control.EndIf 	
+
+f.Intrinsic.Control.CallSub(CopyQuotes,"QuoteNO",v.passed.Quote)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("DocLink_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.DocLink.End
+
+Program.Sub.order_status.Start
+F.Intrinsic.Control.SetErrorHandler("order_status_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+variable.local.TodayDate.Declare(date)
+variable.local.OrderDate.Declare(date)
+variable.local.lRet.Declare(long)
+v.Local.ssql.Declare(string)
+v.Local.sOrderno.Declare(string)
+
+
+F.ODBC.Connection!con.OpenCompanyConnection(300)
+
+Function.Intrinsic.Date.Dateadd ("N",2,v.ambient.now, variable.local.TodayDate)
+
+'Variable.Passed.000023  v.ambient.date
+Function.Intrinsic.Date.ConvertDString(Variable.Passed.000023,"YYYY/MM/DD", variable.local.OrderDate)
+Function.Intrinsic.Date.DateDiff ("d",variable.local.TodayDate,variable.local.OrderDate, variable.local.lRet)
+'check to see if it is today data else old dorder
+f.Intrinsic.Control.If(variable.local.lRet,=,0)
+	f.Intrinsic.String.LPad(Variable.Passed.000003.Trim,"0",7,v.Local.sOrderno)
+	f.Intrinsic.String.Build("select time_last_chg,quote from v_order_header where order_no = '{0}'",v.Local.sOrderno,v.Local.ssql)
+	F.ODBC.Connection!con.OpenRecordsetRO("rst",V.Local.sSQL)
+	f.Intrinsic.Control.If(v.ODBC.con!rst.EOF,=,False)
+'		Function.Intrinsic.Date.DateDiff ("N",variable.local.TodayDate,v.ODBC.con!rst.FieldVal!time_last_chg, variable.local.lRet)
+		Function.Intrinsic.Date.DateDiff ("N",v.ODBC.con!rst.FieldVal!time_last_chg,variable.local.TodayDate, variable.local.lRet)
+		f.Intrinsic.Control.If(variable.local.lRet,>,2)
+			f.Intrinsic.Control.CallSub(get_notes,"ChkNotes","Y")
+		f.Intrinsic.Control.Else 
+			'pass quoteno to copy notes
+			f.Intrinsic.Control.CallSub(CopyQuotes,"QuoteNO",v.ODBC.con!rst.FieldVal!quote)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+	F.ODBC.con!rst.Close
+f.Intrinsic.Control.EndIf 
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("order_status_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.order_status.End
+
+Program.Sub.CopyQuotes.Start
+F.Intrinsic.Control.SetErrorHandler("CopyQuotes_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+v.Local.sSQL.Declare 
+v.local.sOrderNo.Declare 
+v.local.sQuoteNo.Declare 
+
+
+
+F.Intrinsic.Control.If(V.ODBC.Con.State,=,0)
+	F.ODBC.Connection!con.OpenCompanyConnection(300)
+f.Intrinsic.Control.endif
+
+f.Intrinsic.String.LPad(v.passed.Quote,"0",7,v.Local.sQuoteNo)
+f.Intrinsic.String.LPad(v.Passed.Order,"0",7,v.Local.sOrderno)
+
+
+f.Intrinsic.String.Build("select Quote_Order_No,Trans_Type,Created_User,Created_Date,Last_CHG_DATE,Last_CHG_USER,Notes  from GCG_5169_CopyLinks where Quote_Order_No = '{0}' and Trans_Type = 'QO'",v.Local.sQuoteNo,V.Local.sSQL)
+
+F.Data.DataTable.CreateFromSQL("DTLines","con",v.Local.sSQL,True)
+f.Intrinsic.Control.If(Variable.DataTable.DTLines.rowcount,=,0)
+	f.Data.DataTable.AddRow("DTLines","Quote_Order_No",v.local.sOrderNo,"Trans_Type",v.Global.sTransType,"Created_Date",v.Ambient.now,"Created_User",v.Caller.User,"Notes","")
+f.Intrinsic.Control.Else
+'	V.passed.GAB-BTN-1.set("NOTES +")
+	gui.frmNotes.txtNotes.Text(v.DataTable.DTLines(0).Notes!FieldValtrim)
+
+	Function.Data.DataTable.SetValue("DTLines",0,"Trans_Type","SO")
+	Function.Data.DataTable.SetValue("DTLines",0,"Quote_Order_No",v.Local.sOrderno)
+
+	F.Data.DataTable.SaveToDB("DTLines","con","GCG_5169_CopyLinks","Quote_Order_No*!*Trans_Type",256,"Quote_Order_No@!@Quote_Order_No*!*Trans_Type@!@Trans_Type*!*Created_Date@!@Created_Date*!*Created_User@!@Created_User*!*Last_CHG_DATE@!@Last_CHG_DATE*!*Last_CHG_USER@!@Last_CHG_USER*!*Notes@!@Notes")
+f.Intrinsic.Control.endif
+
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("CopyQuotes_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.CopyQuotes.End
+
+Program.Sub.Get_CustNotes.Start
+F.Intrinsic.Control.SetErrorHandler("Get_CustNotes_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+v.Local.sSQL.Declare 
+v.local.sCustNo.Declare 
+
+
+F.Intrinsic.Control.If(V.ODBC.Con.State,=,0)
+	F.ODBC.Connection!con.OpenCompanyConnection(300)
+f.Intrinsic.Control.endif
+
+v.local.sCustNo.set(v.Args.CUSTNO)
+
+
+f.Intrinsic.String.Build("select Text from CUST_ORDER_NOTES where customer = '{0}'",v.local.sCustNo,V.Local.sSQL)
+
+F.Data.DataTable.CreateFromSQL("DTCust","con",v.Local.sSQL)
+f.Intrinsic.Control.If(Variable.DataTable.DTCust.rowcount,=,0)
+	'checking notes exist
+	'Caller INVOICE Screen
+	f.Intrinsic.Control.If(v.Global.lInv,=,1)
+		f.Intrinsic.Variable.AddRV("RTINV","N")
+	f.Intrinsic.Control.Else 
+		V.passed.GAB-BTN-2.set("Cust Notes")
+		F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-2,"LOCK",1)
+	f.Intrinsic.Control.EndIf 
+f.Intrinsic.Control.Else
+	f.Intrinsic.Control.If(v.Global.lInv,=,1)
+		f.Intrinsic.Variable.AddRV("RTINV","Y")
+	f.Intrinsic.Control.Else
+		V.passed.GAB-BTN-2.set("Cust Notes +")
+		F.Intrinsic.UI.ChangeCallerProperty(V.Passed.GAB-BTN-2,"LOCK",0)
+	f.Intrinsic.Control.EndIf 
+	
+	gui.frmNotes.txtNotes.Text(v.DataTable.DTCust(0).Text!FieldValtrim)
+
+f.Intrinsic.Control.endif
+f.Data.DataTable.Close("DTCust")
+gui.frmNotes.txtNotes.Locked(True)
+gui.frmNotes.cmdOk.Visible(false)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_CustNotes_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_5169_.CopyLinks.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Get_CustNotes.End
+
+Program.Sub.Get_Createdby.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sRet.Declare(String)
+v.Local.sOrderno.Declare
+V.Local.sSQL.Declare
+
+
+F.Intrinsic.Control.If(V.ODBC.Con.State,=,0)
+	F.ODBC.Connection!con.OpenCompanyConnection(300)
+f.Intrinsic.Control.endif
+
+f.Intrinsic.String.LPad(Variable.Passed.000003.Trim,"0",7,v.Local.sOrderno)
+
+f.Intrinsic.Control.If(v.Global.sTransType,=,"QO")
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-1","PL",720)
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-1","PT",515)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-1","PH",22)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-1","PW",3)
+	
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-2","PL",720)
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-2","PT",535)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-2","PH",22)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-2","PW",3)
+
+	f.Intrinsic.String.Build("select QTE_CREATED_BY,LAST_CHG_BY  from v_QUOTE_HEADER where Quote_No = '{0}'",v.local.sOrderNo,V.Local.sSQL)
+f.Intrinsic.Control.Else
+
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-1","PL",700)
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-1","PT",565)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-1","PH",22)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-1","PW",3)
+	V.passed.GAB-LBL-1.set(" ")
+	
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-2","PL",700)
+	F.Intrinsic.Variable.SetProperty("GAB-LBL-2","PT",585)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-2","PH",22)
+	F.Intrinsic.Variable.SetProperty("V.Passed.GAB-LBL-2","PW",3)
+	V.passed.GAB-LBL-2.set(" ")
+	
+	f.Intrinsic.String.Build("select top 1 change_user from v_ORDER_CHANGES where order_no = '{0}' order by change_date asc, change_time asc",v.local.sOrderNo,V.Local.sSQL)
+f.Intrinsic.Control.EndIf
+
+F.Data.DataTable.CreateFromSQL("DTCHG","con",v.Local.sSQL,False)
+f.Intrinsic.Control.If(Variable.DataTable.DTCHG.rowcount,>,0)
+
+	f.Intrinsic.Control.If(v.Global.sTransType,=,"QO")
+		f.Intrinsic.String.Build("Created by - {0}",v.DataTable.DTCHG(0).QTE_CREATED_BY!FieldValtrim,V.Local.sRet)
+		V.passed.GAB-LBL-1.set(V.Local.sRet.Trim)
+		
+		f.Intrinsic.String.Build("Last changed by - {0}",v.DataTable.DTCHG(0).LAST_CHG_BY!FieldValtrim,V.Local.sRet)
+		V.passed.GAB-LBL-2.set(V.Local.sRet.Trim)
+	F.Intrinsic.Control.Else
+		f.Intrinsic.String.Build("Created by - {0}",v.DataTable.DTCHG(0).change_user!FieldValtrim,V.Local.sRet)
+		V.passed.GAB-LBL-1.set(V.Local.sRet.Trim)
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.EndIf
+
+f.Intrinsic.Control.If(v.Global.sTransType,<>,"QO")
+	f.Data.DataTable.Close("DTCHG")
+	
+	f.Intrinsic.String.Build("select LAST_CHG_BY  from v_Order_HEADER where Order_No = '{0}'",v.local.sOrderNo,V.Local.sSQL)
+	F.Data.DataTable.CreateFromSQL("DTCHG","con",v.Local.sSQL,False)
+	f.Intrinsic.Control.If(Variable.DataTable.DTCHG.rowcount,>,0)
+		f.Intrinsic.String.Build("Last changed by - {0}",v.DataTable.DTCHG(0).LAST_CHG_BY!FieldValtrim,V.Local.sRet)
+		V.passed.GAB-LBL-2.set(V.Local.sRet.Trim)
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.EndIf
+f.Data.DataTable.Close("DTCHG")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Get_Createdby.End
+
+Program.Sub.WinTitle.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+Variable.Local.sText.Declare
+v.Local.sOrderno.Declare
+'Function.Intrinsic.Debug.InvokeDebugger
+'Function.Intrinsic.Debug.Stop
+
+
+f.Intrinsic.String.LPad(Variable.Passed.000003.Trim,"0",7,v.Local.sOrderno)
+
+'change window Title
+'Function.Intrinsic.API.GetWindowText(v.Caller.Handle, Variable.Local.sText)
+'f.Intrinsic.String.Build("{0} - {1}",v.Local.sOrderno,Variable.Local.sText,Variable.Local.sText)
+
+f.Intrinsic.String.Build("{0} - {1} Header",v.Local.sOrderno,v.Args.ScrType,Variable.Local.sText)
+Function.Intrinsic.API.SetWindowText(v.Caller.Handle,Variable.Local.sText)
+
+'- Open Quote Header
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+Program.Sub.WinTitle.End
+
+Program.Sub.cmdokdue_Click.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+	V.Local.sError.Declare(String)
+
+	V.Local.sEntryDate.Declare
+
+
+	F.Intrinsic.String.Format(v.Screen.frmduedate!dtpduedate.Value,"YYYYMMDD",V.Local.sEntryDate)
+	
+	v.Passed.000024.Set(V.Local.sEntryDate)
+	
+
+	f.Intrinsic.Control.End
+	
+		F.Intrinsic.Control.ExitSub
+	
+	F.Intrinsic.Control.Label("Sub_Err")
+	F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+		Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		f.Intrinsic.Control.End
+	Function.Intrinsic.Control.EndIf
+
+Program.Sub.cmdokdue_Click.End
+
+Program.Sub.frmContacts_UnLoad.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.frmContacts_UnLoad.End
+
+Program.Sub.cmdCreate_Click.Start
+
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdCreate_UnLoad.End
+Program.Sub.Read_ScreenContacts.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sFile.Declare
+V.Local.sFullStringADD.Declare
+
+'Variable.Passed.000001  contact name
+'Variable.Passed.000051  contact Phone
+'Variable.Passed.000071  contact email
+
+F.Intrinsic.String.Build("{0}\ReadCNTRAN.tmp",V.Caller.LocalGSSTempDir,V.Local.sFile)
+f.Intrinsic.String.Build("{0}*!*{1}*!*{2}",Variable.Passed.000001,Variable.Passed.000051,Variable.Passed.000071,V.Local.sFullStringADD)
+F.Intrinsic.File.String2File(V.Local.sFile,V.Local.sFullStringADD)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Read_ScreenContacts.End
+
+Program.Sub.Save_ScreenContacts.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sFile.Declare
+V.Local.iFile.Declare
+V.Local.sText.Declare
+V.Local.sFullStringADD.Declare
+V.Local.sSQL.Declare
+v.local.iRet.Declare
+V.Local.sFname.Declare
+V.Local.sLname.Declare
+V.Local.bEx.Declare
+
+'Variable.Passed.000001  contact name
+'Variable.Passed.000051  contact Phone
+'Variable.Passed.000071  contact email
+
+'contact name blank
+F.Intrinsic.Control.If(Variable.Passed.000001.Trim,=,"")
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.String.Build("{0}\ReadCNTRAN.tmp",V.Caller.LocalGSSTempDir,V.Local.sFile)
+F.Intrinsic.File.Exists(V.Local.sFile,V.Local.bEx)
+Function.Intrinsic.Control.If(V.Local.bEx,=,True)
+'	F.Intrinsic.File.DeleteFile(V.Local.sFile)
+	F.Intrinsic.File.GetHandle(V.Local.iFile)
+	F.Intrinsic.File.OpenForRead(V.Local.sFile,V.Local.iFile)
+	F.Intrinsic.File.ReadFile(V.Local.iFile,V.Local.sText)
+	f.Intrinsic.File.CloseFile(V.Local.iFile)
+f.Intrinsic.Control.Else
+	
+Function.Intrinsic.Control.EndIf
+f.Intrinsic.String.Build("{0}*!*{1}*!*{2}",Variable.Passed.000001,Variable.Passed.000051,Variable.Passed.000071,V.Local.sFullStringADD)
+
+f.Intrinsic.Control.If(V.Local.sFullStringADD,<>,V.Local.sText)
+	F.ODBC.Connection!con.OpenCompanyConnection(300)
+'Cutomer
+	f.Intrinsic.String.Build("select Name from v_contact where cust = '{0}' and ucase(Name) = '{1}'  and  Type = 'C'",Variable.Passed.000006,Variable.Passed.000001.UCase,V.Local.sSQL)
+	F.ODBC.Connection!con.OpenlocalRecordsetRO("rst",V.Local.sSQL)
+	f.Intrinsic.Control.If(V.ODBC.con!rst.EOF,=,true)
+		'contact person not found . do you want to add ??
+		'yes
+		Function.Intrinsic.UI.MsgBox("Contact person not found, do you want to add ??","Confirm",4,v.local.iRet)
+		f.Intrinsic.Control.If(v.local.iRet,=,6)
+			f.Intrinsic.String.Split(Variable.Passed.000001," ",V.Local.sFname)
+'				V.Local.sFname.RedimPreserve(0,1)
+			f.Intrinsic.Control.If(v.Local.sFname(1),<>,"OOB")
+				V.Local.sFname.Set(V.Local.sFname(0))
+				V.Local.sLname.Set(V.Local.sFname(1))
+				f.Intrinsic.Control.CallSub(Upload_Contacts,"Fname",V.Local.sFname,"Lname",V.Local.sLname)
+			f.Intrinsic.Control.Else
+				f.Intrinsic.UI.Msgbox("Create Contact failed, Invalid Last Name")
+				F.ODBC.con!rst.Close
+				F.ODBC.Connection!con.Close
+				f.Intrinsic.Control.exitsub
+			f.Intrinsic.Control.endif
+		f.Intrinsic.Control.EndIf
+		'call upload
+	f.Intrinsic.Control.else
+		F.ODBC.con!rst.Close
+		f.Intrinsic.String.Build("select * from v_contact where cust = '{0}' and Name = '{1}' and ucase(email1) = '{2}' and  Type = 'C'",Variable.Passed.000006,Variable.Passed.000001,Variable.Passed.000071.UCase,V.Local.sSQL)
+		F.ODBC.Connection!con.OpenlocalRecordsetRO("rst",V.Local.sSQL)
+		f.Intrinsic.Control.If(V.ODBC.con!rst.EOF,=,true)
+			'email not found for the contact person . do you want to update ??
+			'yes
+			'recordseet.edit
+			Function.Intrinsic.UI.MsgBox("EmailID changed for the contact person, do you want to update ??","Confirm",4,v.local.iRet)
+			f.Intrinsic.Control.If(v.local.iRet,=,6)
+				f.Intrinsic.String.Build("update contact set email1 = '{0}' where cust = '{1}' and Name = '{2}'  and  Type = 'C'",Variable.Passed.000071,Variable.Passed.000006,Variable.Passed.000001,V.Local.sSQL)
+				f.ODBC.Connection!con.Execute(V.Local.sSQL)
+			f.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.else
+			F.ODBC.con!rst.Close
+			f.Intrinsic.String.Build("select * from v_contact where cust = '{0}' and Name = '{1}' and Phone1 = '{2}' and  Type = 'C'",Variable.Passed.000006,Variable.Passed.000001,Variable.Passed.000051,V.Local.sSQL)
+			F.ODBC.Connection!con.OpenlocalRecordsetRO("rst",V.Local.sSQL)
+			f.Intrinsic.Control.If(V.ODBC.con!rst.EOF,=,true)
+			'phone not found for the contact person . do you want to update ??
+			'yes		
+				Function.Intrinsic.UI.MsgBox("PhoneNo changed for the contact person, do you want to update ??","Confirm",4,v.local.iRet)
+				f.Intrinsic.Control.If(v.local.iRet,=,6)
+					f.Intrinsic.String.Build("update contact set Phone1 = '{0}' where cust = '{1}' and Name = '{2}'  and  Type = 'C'",Variable.Passed.000051,Variable.Passed.000006,Variable.Passed.000001,V.Local.sSQL)
+					f.ODBC.Connection!con.Execute(V.Local.sSQL)
+				f.Intrinsic.Control.EndIf
+			f.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.CallSub(Read_ScreenContacts)
+	F.ODBC.con!rst.Close
+	F.ODBC.Connection!con.Close
+f.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Save_ScreenContacts.End
+
+Program.Sub.Upload_Contacts.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sLenAdd.Declare
+V.Local.iLengthArray.Declare
+V.Local.sTemp.Declare
+V.Local.bEx.Declare
+V.Local.sFile.Declare
+V.Local.sParams.Declare
+V.Local.sRet.Declare
+
+'Variable.Passed.000056   -Int
+'Variable.Passed.000061    -shipto
+'Variable.Passed.000008  -name
+'Variable.Passed.000010	   -shipadd1
+'Variable.Passed.000012		-shipadd2
+'Variable.Passed.000022     - attn
+'Variable.Passed.000016 - city
+'Variable.Passed.000020 - cntry
+'Variable.Passed.000017 -state
+'Variable.Passed.000018  -zip
+
+F.Intrinsic.ui.InvokeWaitDialog("Adding New Contact .....")
+
+f.Intrinsic.String.Build("{0}*!*{1}*!*{2}*!*{3}*!*{4}*!*{5}*!*{6}*!*{7}*!*{8}*!*{9}*!*{10}*!*{11}",V.Passed.000006,"C",V.Passed.000001,v.Args.Fname,v.Args.Lname,V.Passed.000051,V.Passed.000071,V.Passed.000010,V.Passed.000020,V.Passed.000016,V.Passed.000017,V.Passed.000018,V.Local.sTemp)
+V.Local.sLenAdd.set("6*!*1*!*33*!*26*!*68*!*51*!*101*!*50*!*50*!*15*!*10*!*1400")
+F.Intrinsic.String.Split(V.Local.sLenAdd,"*!*",V.Local.iLengthArray)
+
+F.Intrinsic.String.Split(V.Local.sTemp,"*!*",V.Local.sTemp)
+F.Intrinsic.String.PositionalString(V.Local.sTemp,V.Local.iLengthArray,V.Local.sRet)
+
+F.Intrinsic.String.Build("{0}\CONTACT.TXT",V.Caller.FilesDir,V.Local.sFile)
+F.Intrinsic.File.Exists(V.Local.sFile,V.Local.bEx)
+Function.Intrinsic.Control.If(V.Local.bEx,=,True)
+	F.Intrinsic.File.DeleteFile(V.Local.sFile)
+Function.Intrinsic.Control.EndIf
+
+F.Intrinsic.File.String2File(V.Local.sFile,V.Local.sRet)
+F.Intrinsic.String.Build("{0}!*!UPLCNTCT/U",V.Caller.CompanyCode,V.Local.sParams)
+Function.Global.General.CallWrapperSync(51, V.Local.sParams)
+
+F.Intrinsic.ui.CloseWaitDialog
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+
+F.Intrinsic.ui.CloseWaitDialog
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Upload_Contacts.End
+
+
+Program.Sub.frmduedate_UnLoad.Start
+	f.Intrinsic.Control.End 
+Program.Sub.frmduedate_UnLoad.End
+
+
+
+Program.Sub.Upload_AddlAddress.Start
+F.Intrinsic.Control.SetErrorHandler("Sub_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sLenAdd.Declare
+V.Local.sElementsAdd.Declare
+V.Local.iLengthArrayADD.Declare
+V.Local.sTemp.Declare
+V.Local.sRet.Declare
+V.Local.sFile.Declare
+V.Local.bEx.Declare
+v.Local.sSql.Declare
+v.Local.sSeq.Declare
+v.local.iRet.Declare
+
+Function.Intrinsic.UI.MsgBox("Do you want to Add New Ship To ??","Confirm",4,v.local.iRet)
+f.Intrinsic.Control.If(v.local.iRet,=,6)		
+	F.Intrinsic.ui.InvokeWaitDialog("Adding New Ship To .....")
+	
+	F.ODBC.Connection!con.OpenCompanyConnection(300)
+	f.Intrinsic.String.Build("select count(*) +1 from v_OE_MULTI_SHIP where customer = '{0}'",V.Passed.000006,V.Local.sSQL)
+	f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSql,v.Local.sSeq)
+	f.ODBC.Connection!con.close
+	
+	f.Intrinsic.String.LPad(v.Local.sSeq,"0",6,v.Local.sSeq)
+	
+	f.Intrinsic.String.Build("{0}*!*{1}*!*{2}*!*{3}*!*{4}*!*{5}*!*{6}*!*{7}*!*{8}*!*{9}*!*{10}",V.Passed.000006,v.Local.sSeq,Variable.Passed.000008,Variable.Passed.000010,Variable.Passed.000012,Variable.Passed.000016,Variable.Passed.000017,Variable.Passed.000018,V.Passed.000020,Variable.Passed.000022,Variable.Passed.000056,V.Local.sTemp)
+	V.Local.sLenAdd.set("6*!*6*!*30*!*30*!*120*!*15*!*2*!*13*!*12*!*30*!*220")
+	F.Intrinsic.String.Split(V.Local.sLenAdd,"*!*",V.Local.iLengthArrayADD)
+	
+	F.Intrinsic.String.Split(V.Local.sTemp,"*!*",V.Local.sTemp)
+	F.Intrinsic.String.PositionalString(V.Local.sTemp,V.Local.iLengthArrayADD,V.Local.sRet)
+	
+	F.Intrinsic.String.Build("{0}\SHIPTOIN.TXT",V.Caller.FilesDir,V.Local.sFile)
+	F.Intrinsic.File.Exists(V.Local.sFile,V.Local.bEx)
+	Function.Intrinsic.Control.If(V.Local.bEx,=,True)
+		F.Intrinsic.File.DeleteFile(V.Local.sFile)
+	Function.Intrinsic.Control.EndIf
+	F.Intrinsic.File.String2File(V.Local.sFile,V.Local.sRet)
+	Function.Global.General.CallWrapperSync(50, "UPLSHPTO/U")
+	F.Intrinsic.ui.CloseWaitDialog
+f.Intrinsic.Control.EndIf
+
+f.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Sub_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: Project",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Upload_AddlAddress.End
+
+Program.Sub.Comments.Start
+${$0$}$GCG_5169_.CopyLinks$}$MLB$}$7/1/2018 7:38:55 AM$}$False
+${$3$}$0$}$$}$0$}$-1$}$$}$12:00:00 AM$}$The ability to carry the notes and attachments over from the Quotes/sales order to the invoice.
+Program.Sub.Comments.End
